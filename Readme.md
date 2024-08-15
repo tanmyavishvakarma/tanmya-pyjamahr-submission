@@ -2,7 +2,7 @@
 
 ## Deployed Application
 
-The deployed application is accessible at: [PyjamaHR Submission](https://tanmya-pyjamahr-submission.onrender.com)
+The deployed application and the API Collections are accessible at: [PyjamaHR Submission](https://tanmya-pyjamahr-submission.onrender.com)
 
 ## Prerequisites
 
