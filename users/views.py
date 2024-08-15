@@ -14,11 +14,9 @@ from . import serializers
 
 from users.tasks import send_email
 
-
-
+from decouple import config
 
 User = get_user_model()
-
 
 class UserRegisterationAPIView(GenericAPIView):
     """
@@ -37,13 +35,13 @@ class UserRegisterationAPIView(GenericAPIView):
             'refresh': str(token),
             'access': str(token.access_token)
         }
-        send_email.delay('User Created Successfully', 'Welcome to Recipe API', 'tdizzle528@gmail.com', user.email)
-        print(data)
-        subject = "User Created Successfully"
-        message = "Welcome to Recipe API"
-        from_email = "tdizzle528@gmail.com"
-        recipient_list = [user.email]
-        send_mail(subject, message, from_email, recipient_list)
+        send_email.delay('User Created Successfully', 'Welcome to Recipe API', config('EMAIL_USER'), user.email)
+        # print(data)
+        # subject = "User Created Successfully"
+        # message = "Welcome to Recipe API"
+        # from_email = config('EMAIL_USER')
+        # recipient_list = [user.email]
+        # send_mail(subject, message, from_email, recipient_list)
         return Response(data, status=status.HTTP_201_CREATED)
 
 

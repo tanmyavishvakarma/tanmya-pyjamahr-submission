@@ -3,6 +3,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
+from decouple import config
+
 from .models import Recipe, RecipeLike
 from .serializers import RecipeLikeSerializer, RecipeSerializer
 from .permissions import IsAuthorOrReadOnly
@@ -55,7 +57,7 @@ class RecipeLikeAPIView(generics.CreateAPIView):
             new_like.save()
             subject = "Recipe Liked"
             message = f"Your recipe '{recipe.title}' has been liked!"
-            from_email = 'from@example.com'
+            from_email = config('EMAIL_USER')
             recipient_list = [request.user.email]
             print(recipient_list)
             send_email.delay(subject, message, from_email, recipient_list)

@@ -8,9 +8,7 @@ User = get_user_model()
 
 @shared_task
 def send_email(subject, message, from_email, recipient_list):
-    print('here')
     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-    print('there')
 
 @shared_task
 def send_daily_likes_notification():
