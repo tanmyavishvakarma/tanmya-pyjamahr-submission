@@ -35,7 +35,7 @@ class UserRegisterationAPIView(GenericAPIView):
             'refresh': str(token),
             'access': str(token.access_token)
         }
-        send_email.delay('User Created Successfully', 'Welcome to Recipe API', config('EMAIL_USER'), user.email)
+        send_email.delay('User Created Successfully', 'Welcome to Recipe API', config('EMAIL_USER'), [user.email])
         # print(data)
         # subject = "User Created Successfully"
         # message = "Welcome to Recipe API"
