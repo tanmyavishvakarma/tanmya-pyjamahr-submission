@@ -80,6 +80,10 @@ To check Celery logs:
 docker-compose logs celery
 ```
 
+Async task call on ```RecipeLikeAPIView[POST]``` and ```UserRegisterationAPIView[POST]```\
+Celery Beat(send_daily_likes_notification) ```CELERY_BEAT_SCHEDULE``` in ```base.py```
+
+
 ## Accessing the Application
 
 - **Web Application:** `http://localhost:8000`
