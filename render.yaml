@@ -1,12 +1,12 @@
 services:
   - type: web
-    name: web
+    name: django-web
     env: python
     buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn --bind 0.0.0.0:8000 config.wsgi:application"
     plan: free
     build:
-      dockerfilePath: Dockerfile
+      dockerfilePath: Dockerfile.web
     routes:
       - type: primary
         name: "web"
@@ -14,24 +14,10 @@ services:
         port: 8000
 
   - type: worker
-    name: celery
+    name: celery-worker
     env: python
     buildCommand: "pip install -r requirements.txt"
     startCommand: "celery -A config worker --loglevel=info"
     plan: free
     build:
-      dockerfilePath: Dockerfile
-
-  - type: redis
-    name: redis
-    plan: free
-
-  - type: database
-    name: postgres
-    plan: free
-    database:
-      engine: postgres
-      version: "13"
-      username: tanmya_hr_user
-      password: vJzviMz46OSrHVoV0cjTZ9tMRxP4h8Lv
-      database: tanmya_hr
+      dockerfilePath: Dockerfile.celery
