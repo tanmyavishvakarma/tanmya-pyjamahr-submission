@@ -6,7 +6,7 @@ services:
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
-             gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+             supervisord -c /etc/supervisor/conf.d/supervisord.conf"
     volumes:
       - .:/app
     ports:
@@ -19,18 +19,6 @@ services:
       - REDIS_URL=redis://red-cquv16rv2p9s73e8e9j0:6379
       - SECRET_KEY=1234567890
       - DEBUG=True
-
-  celery:
-    build: .
-    command: celery -A config worker --loglevel=info
-    volumes:
-      - .:/app
-    depends_on:
-      - redis
-      - web
-    environment:
-      - CELERY_BROKER_URL=redis://red-cquv16rv2p9s73e8e9j0:6379
-      - CELERY_RESULT_BACKEND=redis://red-cquv16rv2p9s73e8e9j0:6379
 
   redis:
     image: redis:alpine

@@ -3,21 +3,12 @@ services:
     name: django-web
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn --bind 0.0.0.0:8000 config.wsgi:application"
+    startCommand: "supervisord -c /etc/supervisor/conf.d/supervisord.conf"
     plan: free
     build:
-      dockerfilePath: Dockerfile.web
+      dockerfilePath: Dockerfile
     routes:
       - type: primary
         name: "web"
         path: /
         port: 8000
-
-  - type: worker
-    name: celery-worker
-    env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "celery -A config worker --loglevel=info"
-    plan: free
-    build:
-      dockerfilePath: Dockerfile.celery
