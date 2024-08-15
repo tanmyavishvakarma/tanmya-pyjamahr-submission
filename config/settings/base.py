@@ -201,8 +201,8 @@ SIMPLE_JWT = {
 DJANGO_REST_MULTITOKENAUTH_RESET_TOKEN_EXPIRY_TIME = 3  # in hours
 
 # CELERY settings
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = config('REDIS_URL')
+CELERY_RESULT_BACKEND = config('REDIS_URL')
 
 CELERY_BEAT_SCHEDULE = {
     'send_daily_likes_notification': {

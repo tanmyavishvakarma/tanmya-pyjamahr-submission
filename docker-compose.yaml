@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: gunicorn recipe-api.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DATABASE_URL=postgresql://tanmya_hr_user:vJzviMz46OSrHVoV0cjTZ9tMRxP4h8Lv@dpg-cqv07q88fa8c73fcqvm0-a/tanmya_hr
+      - REDIS_URL=redis://red-cquv16rv2p9s73e8e9j0:6379
+      - SECRET_KEY=1234567890
+      - DEBUG=True
+
+  celery:
+    build: .
+    command: celery -A config worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - web
+    environment:
+      - CELERY_BROKER_URL=redis://red-cquv16rv2p9s73e8e9j0:6379
+      - CELERY_RESULT_BACKEND=redis://red-cquv16rv2p9s73e8e9j0:6379
+
+  redis:
+    image: redis:alpine
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: tanmya_hr
+      POSTGRES_USER: tanmya_hr_user
+      POSTGRES_PASSWORD: vJzviMz46OSrHVoV0cjTZ9tMRxP4h8Lv
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
