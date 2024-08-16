@@ -47,6 +47,7 @@ REDIS_URL='your_redis_url'
 ## Docker Setup
 
 The project uses Docker and Docker Compose to set up the environment. 
+Since hosting background workers on Render isn’t free, I combined both processes into one container using a `supervisord.conf` file.
 
 1. **Build and Run the Containers**
 
